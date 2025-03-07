@@ -1,0 +1,80 @@
+#include <stdio.h>
+#include <string.h>
+#include "practicaja.h"
+
+int main()
+{
+
+    char nipV1[] = "1234", nipV2[] = "1701", nipV3[] = "7766";
+    char nipingresado[20];
+    int intentos = 0;
+    int maxintentos = 3;
+    int operaciones, cuentas;
+    float saldoactual;
+    int bucle = 1;
+
+
+    float saldos[3] = {1000, 2000, 10000};
+
+    printf("\n==========BIENVENIDO A LA PRACTICAJA CUCEI==========\n");
+
+    printf("\nPor favor seleccione la cuenta en la que quiere realizar una operacion:\n");
+    printf("1.- Cuenta 1\n");
+    printf("2.- Cuenta 2\n");
+    printf("3.- Cuenta 3\n");
+    scanf("%d", &cuentas);
+
+    switch (cuentas)
+    {
+        case 1:
+            printf("=====CUENTA 1=====\n");
+            saldoactual = saldos[0];
+            break;
+        case 2:
+            printf("=====CUENTA 2=====\n");
+            saldoactual = saldos[1];
+            break;
+        case 3:
+            printf("=====CUENTA 3=====\n");
+            saldoactual = saldos[2];
+            break;
+        default:
+            printf("La opcion ingresada no es valida.\n");
+            return 0;
+    }
+
+    while (intentos < maxintentos)
+    {
+        printf("\n*****INGRESE SU NIP*****\n");
+        scanf("%s", nipingresado);
+
+        if ((cuentas == 1 && strcmp(nipingresado, nipV1) == 0) ||
+            (cuentas == 2 && strcmp(nipingresado, nipV2) == 0) ||
+            (cuentas == 3 && strcmp(nipingresado, nipV3) == 0))
+        {
+            printf("NIP ingresado correctamente\n");
+            break;
+        }
+        else
+        {
+            intentos++;
+            printf("El NIP ingresado es incorrecto\n");
+        }
+
+        if (intentos == maxintentos)
+        {
+            printf("Alcanzaste el número de intentos\n");
+            return 0;
+        }
+    }
+
+    do
+    {
+        realizarOperacion(&operaciones, &saldoactual, &bucle);
+
+    } while (bucle != 2);
+
+    printf("\nGracias por usar la Practicaja Cucei, tenga un buen dia.\n");
+
+    return 0;
+}
