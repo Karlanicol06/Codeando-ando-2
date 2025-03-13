@@ -1,147 +1,129 @@
 #include<stdio.h>
 #include<string.h>
 
-// Funcion para determinar que el numero sea positivo
 int validar(float x)
 {
-    if(x > 0)
+    if( x>0)
     {
-        printf("La cantidad ingresada es valida.\n");
+        printf("la canitdad ingresada es valida.\n");
         return 1;
     }
     else
     {
-        printf("La cantidad ingresada es negativa, ingrese un numero positivo\n");
-        return 0;
+        printf("la cantidad ingresada es negativa, ingrese un numero positivo\n");
     }
 }
 
 int main()
 {
-    // Nips para las cuentas
-    char nipV1[] = "1234", nipV2[] = "1701", nipV3[] = "7766";
+    char nipV[3][5] = {"1234", "1701", "7766"};
     char nipingresado[20];
     int intentos = 0;
     int maxintentos = 3;
-    int operaciones, cuentas;
+    int operaciones;
     float num;
     float v;
-    float saldoactual;
     int bucle = 1;
-
-    // Saldo inicial de las cuentas
     float saldos[3] = {1000, 2000, 10000};
+    int cuentaSeleccionada;
 
     printf("\n==========BIENVENIDO A LA PRACTICAJA CUCEI==========\n");
-
     printf("\nPor favor seleccione la cuenta en la que quiere realizar una operacion:\n");
     printf("1.- Cuenta 1\n");
     printf("2.- Cuenta 2\n");
     printf("3.- Cuenta 3\n");
-    scanf("%d", &cuentas);
+    scanf("%d", &cuentaSeleccionada);
 
-    switch(cuentas)
-    {
-        case 1:
-            printf("=====CUENTA 1=====\n");
-            saldoactual = saldos[0];
-            break;
-        case 2:
-            printf("=====CUENTA 2=====\n");
-            saldoactual = saldos[1];
-            break;
-        case 3:
-            printf("=====CUENTA 3=====\n");
-            saldoactual = saldos[2];
-            break;
-        default:
-            printf("La opcion ingresada no es valida.\n");
-            return 0;
+    if (cuentaSeleccionada < 1 || cuentaSeleccionada > 3) {
+        printf("La opcion ingresada no es valida.\n");
+        return 0;
     }
 
-    while(intentos < maxintentos)
+    cuentaSeleccionada -= 1;
+
+    while (intentos < maxintentos)
     {
         printf("\n*****INGRESE SU NIP*****\n");
         scanf("%s", nipingresado);
 
-        if ((cuentas == 1 && strcmp(nipingresado, nipV1) == 0) ||
-            (cuentas == 2 && strcmp(nipingresado, nipV2) == 0) ||
-            (cuentas == 3 && strcmp(nipingresado, nipV3) == 0))
+        if (strcmp(nipingresado, nipV[cuentaSeleccionada]) == 0)
         {
-            printf("NIP ingresado correctamente\n");
+            printf("Nip ingresado correctamente\n");
             break;
         }
         else
         {
             intentos++;
-            printf("El NIP ingresado es incorrecto\n");
+            printf("El nip ingresado es incorrecto\n");
         }
 
-        if(intentos == maxintentos)
+        if (intentos == maxintentos)
         {
-            printf("Alcanzaste el número de intentos\n");
+            printf("Alcanzaste el numero de intentos\n");
             return 0;
         }
     }
 
     do
     {
+
         printf("\nPor favor ingrese la opcion deseada:\n\n");
-        printf("1.- Consulta de saldo\n");
-        printf("2.- Depositos\n");
-        printf("3.- Retiros\n");
-        printf("4.- Salir de la Practicaja\n");
+        printf("1.-Consulta de saldo\n");
+        printf("2.-Depositos\n");
+        printf("3.-Retiros\n");
+        printf("4.-Salir de la practicaja\n");
         scanf("%d", &operaciones);
 
-        switch(operaciones)
+        switch (operaciones)
         {
             case 1:
                 printf("=========CONSULTA DE SALDO==========\n");
-                printf("Su saldo actual es de: %.2f\n", saldoactual);
+                printf("Su saldo actual es de: %.2f\n", saldos[cuentaSeleccionada]);
                 break;
 
             case 2:
                 printf("=========DEPOSITOS==========\n");
                 printf("Ingrese la cantidad que desea depositar: \n");
                 scanf("%f", &num);
-
-                // Validar la cantidad para el depósito
                 v = validar(num);
-                while (v != 1)  // Continuar pidiendo hasta que sea válida
+                while (v != 1)
                 {
-                    printf("Ingrese una cantidad positiva para depositar: \n");
                     scanf("%f", &num);
                     v = validar(num);
                 }
-
-                saldoactual += num;
-                printf("Su deposito se realizo con exito. El saldo actual es: %.2f\n", saldoactual);
+                saldos[cuentaSeleccionada] = saldos[cuentaSeleccionada] + num;
+                printf("Su deposito se realizo con exito, el saldo actual de su cuenta es: %.2f\n", saldos[cuentaSeleccionada]);
                 break;
 
             case 3:
-                printf("=========RETIROS==========\n");
-                printf("Ingrese la cantidad que desea retirar: \n");
-                scanf("%f", &num);
-
-                // Validar la cantidad para el retiro
-                v = validar(num);
-                while (v != 1 || num > saldoactual)  // Validar cantidad positiva y que no sea mayor al saldo
-                {
-                    if (num > saldoactual) {
-                        printf("Pero no tienes esa cantidad, por favor ingrese una cantidad que tengas:\n");
-                    }
-                    printf("Ingrese una cantidad positiva para retirar: \n");
+                do {
+                    printf("=========RETIROS==========\n");
+                    printf("Ingrese la cantidad que desea retirar: \n");
                     scanf("%f", &num);
                     v = validar(num);
-                }
+                    while (v != 1)
+                    {
+                        scanf("%f", &num);
+                        v = validar(num);
+                    }
 
-                saldoactual -= num;
-                printf("Su retiro se realizó con éxito. La cantidad restante en su cuenta es: %.2f\n", saldoactual);
+                    if (num > saldos[cuentaSeleccionada])
+                    {
+                        printf("No tienes suficiente saldo, por favor ingresa una cantidad que tengas:\n");
+                    }
+                    else
+                    {
+                        saldos[cuentaSeleccionada] -= num;
+                        printf("Su retiro se realizo con exito, la cantidad restante en su cuenta es: %.2f\n", saldos[cuentaSeleccionada]);
+                        break;
+                    }
+                } while (1);
                 break;
 
             case 4:
                 printf("\nGracias por usar la Practicaja Cucei, tenga un buen dia.\n");
                 return 0;
+                break;
 
             default:
                 printf("La opcion ingresada no es correcta.\n");
@@ -155,6 +137,5 @@ int main()
     } while (bucle != 2);
 
     printf("\nGracias por usar la Practicaja Cucei, tenga un buen dia.\n");
-
     return 0;
 }
