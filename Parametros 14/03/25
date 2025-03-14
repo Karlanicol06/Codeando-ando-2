@@ -1,0 +1,62 @@
+#include<stdio.h>
+
+void punteros(int *puntero)
+{
+    //se saca una ***copia*** de todos los datos muy importantes
+    printf("Valor del puntero: %d\n", puntero);
+    printf("Valor de la variable a la que apunta: %d\n", *punteros);
+    printf("Direccion del puntero (Local): %d\n",&punteros);
+    //modificar
+    *puntero = 999;
+    printf("valor del puntero desde fpunteros: %d\n", *puntero);
+}
+
+void fCopia(int copia)
+{
+    //se saca una ***copia*** de todos los datos muy importantes
+    printf("valor de la copia:\t%d\n", copia);
+    printf("Direccion de la copia (local): \t%d\n", &copia);
+    //Modificar
+    copia= 999;
+    printf("Valor de la copia: \t%d\n", copia);
+}
+
+void modificarSaldo(int*saldo, int cantidad)
+{
+    //modificarSaldo tiene su propio espacio de memoria
+    printf("\nModificar saldo");
+    printf("direccion saldo (misma direccion que saldos[0]): \t%d\n",saldo);
+    printf("direccion saldo (misma direccion que saldos[0]): \t%d\n",*saldo);
+    printf("direccion saldo (misma direccion que saldos[0]): \t%d\n",&saldo);
+    printf("valor saldo (mismo valor): \t%d\n",*saldo);
+
+    printf("direccion cantidad: \t%d\n", cantidad);
+    printf("valor de la cantidad:\t%d\n",&cantidad);
+    *saldo+=cantidad;
+}
+
+int main()
+//main tiene su propio espacio de memoria
+{
+    int saldos[3]={777,999,100};
+    char nip[4];
+    int retiro;
+    int deposito;
+
+    printf("direccion saldos: \t%d\n",saldos);
+    for (int i=0;i<3; i++)
+    {
+        printf("direccion saldos[%d]: \t%d\n",i,&saldos[i]);
+    }
+    printf("direccion retiro: \t%d\n",&retiro);
+    printf("direccion deposito:\t%d\n",&deposito);
+
+    int valor=666;
+    //Copiar el valor
+    fCopia(valor);
+
+    /*modificarSaldo(&saldos[0],30);
+    printf("valor saldo[0] modificado:%d\n",saldos[0]);
+    printf("\n");*/
+    return 0;
+}
